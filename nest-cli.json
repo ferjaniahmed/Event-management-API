@@ -1,8 +1,32 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/calendarApp-backend/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/calendarApp-backend/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/calendarApp-backend",
+  "projects": {
+    "calendarApp-backend": {
+      "type": "application",
+      "root": "apps/calendarApp-backend",
+      "entryFile": "main",
+      "sourceRoot": "apps/calendarApp-backend/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/calendarApp-backend/tsconfig.app.json"
+      }
+    },
+    "auth": {
+      "type": "application",
+      "root": "apps/auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/auth/tsconfig.app.json"
+      }
+    }
   }
 }
