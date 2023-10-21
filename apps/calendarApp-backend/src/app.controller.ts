@@ -10,8 +10,5 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post("auth/login")
-  login(@Body() user : Record<string , any>){
-    return this.appService.login(user)
-  }
+
 }

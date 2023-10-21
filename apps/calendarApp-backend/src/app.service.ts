@@ -13,11 +13,6 @@ export class AppService {
     return this.client.send({cmd : "sum"} , [1, 2, 3]);
   }
 
-  login(data : any){
-    return this.client.send({cmd : "login"} , data)
-  }
-  getProfile(){
 
-  }
 
 }
