@@ -9,9 +9,8 @@ export class AuthController {
   //for test
   @MessagePattern({cmd : "sum"})
   accumulate(data: number[]): number {
-    return (data || []).reduce((a, b) => a + b);
+    return (data || []).reduce((a, b)=>a+b);
   }
-
   @MessagePattern({cmd : "login"})
   login(data : any){
     return this.authService.login(data)
