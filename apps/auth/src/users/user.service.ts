@@ -2,6 +2,8 @@ import { UserDocument, UserDto } from "@app/common";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import * as bcrypt from 'bcrypt';
+import { saltOrRounds } from "./contants";
 
 @Injectable()
 export class UserService{
@@ -26,6 +28,8 @@ export class UserService{
 
     async create(data : UserDto){
         try{
+            const hash = await  bcrypt.hash(data.password, saltOrRounds);
+            data.password = hash
             const newUser = new this.userDocument(data) 
             return await newUser.save()
         }catch(e){
