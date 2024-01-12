@@ -1,23 +1,26 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { MessagePattern, Payload } from '@nestjs/microservices/decorators';
+import { AuthDto } from './auth.dto';
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller()
+
+
+@Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  //for test
-  @MessagePattern({cmd : "sum"})
-  accumulate(data: number[]): number {
-    return (data || []).reduce((a, b)=>a+b);
-  }
+  
   @MessagePattern({cmd : "login"})
-  login(data : any){
+  @Post("login")
+  login(@Body() data : AuthDto){
     return this.authService.login(data)
   }
 
   @MessagePattern({cmd : "getProfile"})
-  getProfile(){
-    return this.authService.getProfile()
+  @Get('profile')
+  @UseGuards(AuthGuard("jwt"))
+  getProfile(@Req() request){
+    return request.user;
   }
 }
