@@ -3,6 +3,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from './users/user.module';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [JwtModule.register({
@@ -12,6 +13,6 @@ import { UserModule } from './users/user.module';
     signOptions: { expiresIn: '3600s' },
   }),UserModule],
   controllers: [AuthController],
-  providers: [AuthService,],
+  providers: [AuthService,JwtStrategy],
 })
 export class AuthModule {}

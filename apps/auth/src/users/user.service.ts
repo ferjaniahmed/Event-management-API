@@ -7,6 +7,9 @@ import { saltOrRounds } from "./contants";
 
 @Injectable()
 export class UserService{
+    findById(id: any) {
+      throw new Error("Method not implemented.");
+    }
     
     constructor(@InjectModel('User') private readonly userDocument :Model<UserDocument> ){}
 
@@ -48,6 +51,31 @@ export class UserService{
     async delete(id :string){
         try{
             return await this.userDocument.findByIdAndDelete(id)
+        }catch(e){
+            throw new HttpException("USER NOT FOUND FOR THE DELETE" , HttpStatus.NOT_FOUND,{cause : e})
+        }
+    }
+
+    async findByEmail(email){
+        try{
+            return await this.userDocument.findOne({email : email})
+        }catch(e){
+            throw new HttpException("USER NOT FOUND FOR THE DELETE" , HttpStatus.NOT_FOUND,{cause : e})
+        }
+    }
+
+    async verifyUser(email  : string , password : string){
+        
+        try{
+            const user = await this.userDocument.findOne({email : email})
+            if(user){
+                if(await bcrypt.compare(password, user.password)){
+                    return user
+                }
+            }else{
+                return null
+            }
+            
         }catch(e){
             throw new HttpException("USER NOT FOUND FOR THE DELETE" , HttpStatus.NOT_FOUND,{cause : e})
         }
