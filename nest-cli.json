@@ -36,6 +36,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
+    },
+    "event": {
+      "type": "application",
+      "root": "apps/event",
+      "entryFile": "main",
+      "sourceRoot": "apps/event/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/event/tsconfig.app.json"
+      }
     }
   }
 }
