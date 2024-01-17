@@ -4,23 +4,22 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import * as bcrypt from 'bcrypt';
 import { saltOrRounds } from "./contants";
+import { EventPattern, MessagePattern } from "@nestjs/microservices";
 
 @Injectable()
 export class UserService{
-    findById(id: any) {
-      throw new Error("Method not implemented.");
-    }
     
-    constructor(@InjectModel('User') private readonly userDocument :Model<UserDocument> ){}
+    constructor(@InjectModel('Users') private readonly userDocument :Model<UserDocument> ){}
 
-    async  findAll(){
+    @MessagePattern("findAllUser")
+    async findAll(){
         try{
             return await this.userDocument.find()
         }catch(e){
             throw new HttpException("NO USERS YET !!!" , HttpStatus.NOT_FOUND,{cause : e})
         }
     }
-
+    @MessagePattern("findOneUser")
     async findOne(id :string){
         try{
             return await this.userDocument.findById(id)
@@ -29,6 +28,7 @@ export class UserService{
         }
     }
 
+    @EventPattern("createUser")
     async create(data : UserDto){
         try{
             const hash = await  bcrypt.hash(data.password, saltOrRounds);
@@ -40,6 +40,7 @@ export class UserService{
         }
     }
 
+    @EventPattern("UpdateUser")
     async update(id : string , data :UserDto){
         try{
             return await this.userDocument.updateOne({_id : id} , data , { new : true})
@@ -48,6 +49,7 @@ export class UserService{
         }
     }
 
+    @EventPattern("DeleteUser")
     async delete(id :string){
         try{
             return await this.userDocument.findByIdAndDelete(id)
@@ -56,6 +58,7 @@ export class UserService{
         }
     }
 
+    @MessagePattern("findByEmailUser")
     async findByEmail(email){
         try{
             return await this.userDocument.findOne({email : email})

@@ -5,7 +5,7 @@ import { UserService } from "./user.service";
 import { UserSchema } from "@app/common";
 
 @Module({
-    imports :[SharedModule.register([{name : "User" , schema : UserSchema }])],
+    imports :[SharedModule.register([{name : "Users" , schema : UserSchema }])],
     controllers : [UserController],
     providers  : [UserService],
     exports : [UserService]
