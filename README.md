@@ -28,6 +28,7 @@ design and development of a Event management API
 ## Installation
 
 ```bash
+$ git checkout develop
 $ npm install
 ```
 
